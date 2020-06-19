@@ -1,0 +1,45 @@
+{
+  "name": "graphql-draftjs",
+  "version": "0.0.1",
+  "devDependencies": {
+    "@babel/cli": "7.10.1",
+    "@babel/core": "7.10.2",
+    "@babel/node": "7.10.1",
+    "@babel/preset-env": "7.10.2",
+    "@babel/preset-typescript": "7.10.1",
+    "graphql": "15.1.0",
+    "lint-staged": "10.2.11",
+    "typescript": "3.9.5"
+  },
+  "license": "MIT",
+  "lint-staged": {
+    "*.js": [
+      "prettier --write --single-quote true --trailing-comma all --print-width 100",
+      "eslint --fix",
+      "git add"
+    ],
+    "*.ts": [
+      "yarn prettier",
+      "tslint --fix",
+      "git add"
+    ]
+  },
+  "main": "lib/index.js",
+  "module": "src/index.ts",
+  "peerDependencies": {
+    "graphql": "*"
+  },
+  "pre-commit": "lint:staged",
+  "scripts": {
+    "build": "npm run build:babel",
+    "build:babel": "rm -rf lib/* && babel src --extensions \".es6,.js,.es,.mjs,.ts\" --ignore src/**/*.spec.ts,src/**/*.test.ts --out-dir lib --copy-files --source-maps --verbose",
+    "build:ts": "tsc -p tsconfig.base.json",
+    "precommit": "yarn lint:staged",
+    "prepare": "npm run build",
+    "prepublish": "npm run build",
+    "release:major": "npm version major && git push --follow-tags",
+    "release:minor": "npm version minor && git push --follow-tags",
+    "release:patch": "npm version patch && git push --follow-tags",
+    "typecheck": "yarn tsc"
+  }
+}
